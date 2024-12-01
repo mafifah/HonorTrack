@@ -65,7 +65,7 @@
 	<title>HonorTrack - Cetak</title>
 </head>
 <body>
-  @if(isset($guru) && $guru->count() > 0)
+  @if($guru != "")
   	<center>
 	    <h4 style="font-family: Arial, Helvetica, sans-serif; font-size: 20px;">Laporan Absensi {{$guru->nama}}</h4>
 	    Periode {{ date("d F Y", strtotime($tanggalAwal)) }} - {{ date("d F Y", strtotime($tanggalAkhir)) }}

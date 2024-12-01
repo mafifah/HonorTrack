@@ -70,7 +70,7 @@ class InfoAbsensiController extends Controller
         
 
         $data;
-        $guru = [];
+        $guru = "";
         $idguru = $request->idguru;
         if($idguru != null){
             $guru = Staf::findOrFail($idguru);
