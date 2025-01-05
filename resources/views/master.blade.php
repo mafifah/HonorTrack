@@ -32,8 +32,18 @@
   <!-- Template Main CSS File -->
   <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
-  
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+   integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+   crossorigin=""/>
+
+  <style>
+        #map {
+            height: 80vh;
+            width: 100%;
+        }
+  </style>
 
   <!-- =======================================================
   * Template Name: NiceAdmin
@@ -144,6 +154,14 @@
         </a>
       </li><!-- End Dashboard Nav -->
       @endif
+      {{--@if(Auth::user() != null && Auth::user()->role == 'Guru')
+      <li class="nav-item">
+        <a class="nav-link {{ request()->is('akademik/jadwal') ? '' : 'collapsed' }}" href="{{ route('jadwal') }}">
+          <i class="bi bi-person"></i>
+          <span>Jadwal</span>
+        </a>
+      </li>
+      @endif--}}
       @if(Auth::user() != null && Auth::user()->role != 'Guru')
       <li class="nav-heading">Master</li>
 
@@ -160,6 +178,11 @@
           <li>
             <a href="{{ route('matapelajaran') }}" class="{{ request()->is('akademik/matapelajaran*') ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>Mata Pelajaran</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ route('guru') }}" class="{{ request()->is('akademik/guru*') ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>Guru</span>
             </a>
           </li>
           <li>
@@ -192,6 +215,15 @@
         <a class="nav-link {{ request()->is('informasi/pengunjung*') ? '' : 'collapsed' }}" href="{{ route('info-absensi') }}">
           <i class="bi bi-arrow-return-right"></i>
           <span>Informasi Absensi</span>
+        </a>
+      </li><!-- End Register Page Nav -->
+
+      <li class="nav-heading">Setting</li>
+
+      <li class="nav-item">
+        <a class="nav-link {{ request()->is('setting/system*') ? '' : 'collapsed' }}" href="{{ route('setting-system') }}">
+          <i class="bi bi-arrow-return-right"></i>
+          <span>System</span>
         </a>
       </li><!-- End Register Page Nav -->
       @endif
@@ -253,7 +285,10 @@
   <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
   <script src="{{ asset('assets/sweetalert/sweetalert2.all.min.js') }}"></script>
 
-
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+     
   <!-- Template Main JS File -->
   <script src="{{ asset('assets/js/main.js') }}"></script>
 
@@ -366,7 +401,7 @@
 
                 // Kirim data ke server menggunakan AJAX
                 $.ajax({
-                    url: 'jadwal/simpan-absensi', // Endpoint API di Laravel
+                    url: 'akademik/jadwal/simpan-absensi', // Endpoint API di Laravel
                     type: 'POST',
                     data: {
                         _token: token, // Token CSRF

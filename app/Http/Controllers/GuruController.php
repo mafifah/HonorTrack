@@ -8,27 +8,26 @@ use App\Models\User;
 use App\Models\Jabatan;
 use Auth;
 
-class StafController extends Controller
+class GuruController extends Controller
 {
-    public function index (){      
+    public function index (){   
         $dataJabatan = Jabatan::where('nama', '=', 'Guru')->first();   
-        $data = Staf::where('id_jabatan', '!=', $dataJabatan->id)->get();
-        return view('staf.staf', compact('data'));
+        $data = Staf::where('id_jabatan', $dataJabatan->id)->get();
+        return view('guru.guru', compact('data'));
     }
 
     public function tambah (){
-        $dataJabatan = Jabatan::all();
-        return view('staf.tambah', compact('dataJabatan'));
+        return view('guru.tambah');
     }
 
     public function simpan (Request $request){
-        $dataJabatan = Jabatan::findOrFail($request->id_jabatan);
+        $dataJabatan = Jabatan::where('nama', '=', 'Guru')->first();
         //dd($request->all());
         $userData = [
             'nama' => $request->input('nama'),
             'username' => $request->input('nama'),
             'password' => bcrypt($request->input('nama')),
-            'role' => $dataJabatan->nama,
+            'role' => 'Guru',
         ];
 
         // Create user record
@@ -36,23 +35,25 @@ class StafController extends Controller
 
         $data = $request->except('_token', 'submit');
         $data['user_id'] = $user->id;
-
+        $data['id_jabatan'] = $dataJabatan->id;
         Staf::create($data);
 
-        return redirect('user/staf');
+        return redirect('akademik/guru');
     }
 
     public function edit ($id){
         $data = Staf::findOrFail($id);
         $dataJabatan = Jabatan::all();
-        return view('staf.edit', compact('data', 'dataJabatan'));
+        return view('guru.edit', compact('data', 'dataJabatan'));
     }
 
     public function update (Request $request, $id){
-        $dataJabatan = Jabatan::findOrFail($request->id_jabatan);
+        $dataJabatan = Jabatan::where('nama', '=', 'Guru')->first();
 
         $data = Staf::findOrFail($id);
         $data->nama = $request->nama;
+        $data->rate_gaji = $request->rate_gaji;
+        $data->id_jabatan = $dataJabatan->id;
         $data->save();
 
         $user = User::findOrFail($data->user_id);
@@ -60,7 +61,7 @@ class StafController extends Controller
         $user->role = $dataJabatan->nama;
         $user->save();
 
-        return redirect('user/staf');
+        return redirect('akademik/guru');
     }
     
     public function reset ($id){
@@ -71,7 +72,7 @@ class StafController extends Controller
         $user->password = bcrypt($data->nis);
         $user->save();
 
-        return redirect('user/anggota');
+        return redirect('akademik/guru');
     }
     
     public function delete (Request $request){
@@ -82,6 +83,6 @@ class StafController extends Controller
         $user = User::findOrFail($data->user_id);
         $user->delete();
 
-        return redirect('user/staf');
+        return redirect('akademik/guru');
     }
 }

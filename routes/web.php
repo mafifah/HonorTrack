@@ -17,9 +17,8 @@ Route::get('/', function () {
     return view('login');
 })->name('login');
 
-Route::get('/dashboard', function () {
-    return view('master');
-})->name('dashboard');
+
+Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
 //Route::get('/login', 'LoginController@index')->name('login');
 Route::post('login/submit', 'LoginController@login')->name('login-submit');
@@ -40,6 +39,14 @@ Route::post('akademik/matapelajaran-simpan', 'MataPelajaranController@simpan')->
 Route::get('akademik/matapelajaran-edit/{id}', 'MataPelajaranController@edit')->name('matapelajaran-edit');
 Route::post('akademik/matapelajaran-update/{id}', 'MataPelajaranController@update')->name('matapelajaran-update');
 Route::post('akademik/matapelajaran-delete', 'MataPelajaranController@delete')->name('matapelajaran-delete');
+
+Route::get('akademik/guru', 'GuruController@index')->name('guru');
+Route::get('akademik/guru-tambah', 'GuruController@tambah')->name('guru-tambah');
+Route::post('akademik/guru-simpan', 'GuruController@simpan')->name('guru-simpan');
+Route::get('akademik/guru-edit/{id}', 'GuruController@edit')->name('guru-edit');
+Route::post('akademik/guru-update/{id}', 'GuruController@update')->name('guru-update');
+Route::get('akademik/guru-reset/{id}', 'GuruController@reset')->name('guru-reset');
+Route::post('akademik/guru-delete', 'GuruController@delete')->name('guru-delete');
 
 Route::get('user/staf', 'StafController@index')->name('staf');
 Route::get('user/staf-tambah', 'StafController@tambah')->name('staf-tambah');
@@ -65,3 +72,6 @@ Route::post('informasi/honor/cetak', 'InfoHonorController@cetakData')->name('inf
 Route::get('informasi/absensi', 'InfoAbsensiController@index')->name('info-absensi');
 Route::post('informasi/absensi/filter', 'InfoAbsensiController@perbaruiData')->name('info-absensi-filter');
 Route::post('informasi/absensi/cetak', 'InfoAbsensiController@cetakData')->name('info-absensi-cetak');
+
+Route::get('setting/system', 'SettingSystemController@index')->name('setting-system');
+Route::post('setting/system-update', 'SettingSystemController@update')->name('setting-system-update');

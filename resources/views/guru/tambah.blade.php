@@ -6,9 +6,9 @@
   <div class="col-lg-12">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">Form Tambah Data Staf</h5>
+        <h5 class="card-title">Form Tambah Data Guru</h5>
         <!-- General Form Elements -->
-        <form method="POST" action="{{ route('staf-simpan') }}">
+        <form method="POST" action="{{ route('guru-simpan') }}">
           @csrf
           <div class="row mb-3">
             <label for="inputText" class="col-sm-2 col-form-label">Nama</label>
@@ -17,17 +17,11 @@
             </div>
           </div>
           <div class="row mb-3">
-            <label for="inputText" class="col-sm-2 col-form-label">Jabatan</label>
+            <label for="inputText" class="col-sm-2 col-form-label">Rate Honor</label>
             <div class="col-sm-10">
-              <select class="js-example-basic-single js-states form-control" aria-label="Default select example" name="id_jabatan" required>
-                <option>Pilih Jabatan</option>
-                @foreach($dataJabatan as $value)
-                <option value="{{$value->id}}">{{ $value->nama }}</option>
-                @endforeach
-              </select>
+              <input type="number" class="form-control" name="rate_gaji">
             </div>
           </div>
-          
 
           
 

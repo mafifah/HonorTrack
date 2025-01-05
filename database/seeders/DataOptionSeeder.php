@@ -27,6 +27,9 @@ class DataOptionSeeder extends Seeder
             ['entity' => 'Kehadiran', 'nama' => 'Izin'],
             ['entity' => 'Kehadiran', 'nama' => 'Sakit'],
             ['entity' => 'Kehadiran', 'nama' => 'Absen'],
+            ['entity' => 'Koordinat Sekolah Lat', 'nama' => '-7.1015612'],
+            ['entity' => 'Koordinat Sekolah Long', 'nama' => '113.6536861'],
+            ['entity' => 'Status Validasi Lokasi', 'nama' => 'Yes'],
         ]);
     }
 }

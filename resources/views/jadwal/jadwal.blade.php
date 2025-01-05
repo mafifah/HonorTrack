@@ -17,13 +17,6 @@
               <h6 class="text-muted">Pengajar: {{$value->staf->nama}}</h6>
             </div>
             <div class="card-footer">
-              @if ($hariIni == $value->hari)
-                <a type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#verticalycentered" 
-                   onclick="editData('{{ csrf_token() }}', '{{ $value->id }}', 'jadwal/rekam-absensi', '#modal-absensi-content')">
-                   <i class="ri-check-fill"></i>
-                </a>
-              @endif
-              <a type="button" class="btn btn-secondary" href=""><i class="ri-exchange-box-fill"></i></a>
               <a type="button" class="btn btn-warning" href="{{ route('jadwal-edit', $value->id) }}"><i class="ri-pencil-ruler-2-line"></i></a>
               <a type="button" class="btn btn-danger" href="#" onclick="deleteData('{{csrf_token()}}', '{{ $value->id }}', 'jadwal-delete')"><i class="ri-delete-bin-2-line"></i></a>
             </div>
