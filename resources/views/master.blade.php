@@ -79,7 +79,7 @@
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="{{ asset('assets/img/profile-img.jpg') }}" alt="Profile" class="rounded-circle">
+            <img src="{{ Auth::user()->user_img ? asset('images/' . Auth::user()->user_img) : asset('assets/img/profile-img.jpg') }}" alt="Profile" class="rounded-circle">
             <span class="d-none d-md-block dropdown-toggle ps-2">@if(Auth::user() != null){{ Auth::user()->nama }} @endif</span>
           </a><!-- End Profile Iamge Icon -->
 
@@ -101,9 +101,9 @@
             </li>
             @if(Auth::user() != null)
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
+              <a class="dropdown-item d-flex align-items-center" href="{{ route('setting-profile') }}">
                 <i class="bi bi-person"></i>
-                <span>My Profile</span>
+                <span>Profil Saya</span>
               </a>
             </li>
             <li>
@@ -111,9 +111,9 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
+              <a class="dropdown-item d-flex align-items-center" href="{{ route('setting-password') }}">
                 <i class="bi bi-gear"></i>
-                <span>Account Settings</span>
+                <span>Ubah Password</span>
               </a>
             </li>
             <li>
@@ -164,34 +164,33 @@
       @endif--}}
       @if(Auth::user() != null && Auth::user()->role != 'Guru')
       <li class="nav-heading">Master</li>
+      <li class="nav-item">
+        <a class="nav-link {{ request()->is('akademik/kelas*') ? '' : 'collapsed' }}" href="{{ route('kelas') }}">
+          <i class="bi-mortarboard"></i>
+          <span>Kelas</span>
+        </a>
+      </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Akademik</span><i class="bi bi-chevron-down ms-auto"></i>
+        <a class="nav-link {{ request()->is('akademik/matapelajaran*') ? '' : 'collapsed' }}" href="{{ route('matapelajaran') }}">
+          <i class="bi-lightbulb"></i>
+          <span>Mata Pelajaran</span>
         </a>
-        <ul id="tables-nav" class="nav-content {{ request()->is('akademik*') ? '' : 'collapsed' }} " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="{{ route('kelas') }}" class="{{ request()->is('akademik/kelas*') ? 'active' : '' }}">
-              <i class="bi bi-circle"></i><span>Kelas</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ route('matapelajaran') }}" class="{{ request()->is('akademik/matapelajaran*') ? 'active' : '' }}">
-              <i class="bi bi-circle"></i><span>Mata Pelajaran</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ route('guru') }}" class="{{ request()->is('akademik/guru*') ? 'active' : '' }}">
-              <i class="bi bi-circle"></i><span>Guru</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ route('jadwal') }}" class="{{ request()->is('akademik/jadwal*') ? 'active' : '' }}">
-              <i class="bi bi-circle"></i><span>Jadwal</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Tables Nav -->
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link {{ request()->is('akademik/guru*') ? '' : 'collapsed' }}" href="{{ route('guru') }}">
+          <i class="bi-person-check"></i>
+          <span>Guru</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link {{ request()->is('akademik/jadwal*') ? '' : 'collapsed' }}" href="{{ route('jadwal') }}">
+          <i class="bi-journal-text"></i>
+          <span>Jadwal</span>
+        </a>
+      </li>
       <li class="nav-item">
         <a class="nav-link {{ request()->is('staf') ? '' : 'collapsed' }}" href="{{ route('staf') }}">
           <i class="bi bi-person"></i>
@@ -206,14 +205,14 @@
 
       <li class="nav-item">
         <a class="nav-link {{ request()->is('informasi/buku*') ? '' : 'collapsed' }}" href="{{ route('info-honor') }}">
-          <i class="bi bi-arrow-return-right"></i>
+          <i class="bi-cash-stack"></i>
           <span>Informasi Honor</span>
         </a>
       </li><!-- End Register Page Nav -->
 
       <li class="nav-item">
         <a class="nav-link {{ request()->is('informasi/pengunjung*') ? '' : 'collapsed' }}" href="{{ route('info-absensi') }}">
-          <i class="bi bi-arrow-return-right"></i>
+          <i class="bi-calendar-check"></i>
           <span>Informasi Absensi</span>
         </a>
       </li><!-- End Register Page Nav -->
@@ -222,7 +221,7 @@
 
       <li class="nav-item">
         <a class="nav-link {{ request()->is('setting/system*') ? '' : 'collapsed' }}" href="{{ route('setting-system') }}">
-          <i class="bi bi-arrow-return-right"></i>
+          <i class="bi-gear"></i>
           <span>System</span>
         </a>
       </li><!-- End Register Page Nav -->

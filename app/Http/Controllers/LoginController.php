@@ -25,28 +25,18 @@ class LoginController extends Controller
             $request->session()->regenerate();
             return redirect('/dashboard');
         }
-        return redirect('/login');
+        return redirect('/');
     }
 
     public function profile()
     {
-        return view('auth.profile');
+        return view('utility.profile');
     }
 
     public function profileupdate(Request $request)
     {
-        $input = $request->all();
-        $rules = array(
-          'userpp' => 'mimes:jpg,png',
-          'username' => 'required',
-        );
-
-        $validation = Validator::make($input, $rules);
-        if($validation->fails()){
-          return response()->json(0);
-        }
         $data = Auth::user();
-        $data->name = $request->input('username');
+        $data->username = $request->input('username');
         if ($request->hasFile('userpp')) {
         $image_path = $data->user_img;
         if(file_exists('images/'.$image_path)) {
@@ -58,31 +48,35 @@ class LoginController extends Controller
         $data->user_img = $new_name;
       }
         $data->save();
-        return response()->json(1);
+        return redirect()->back();
     }
 
     public function settings()
     {
-        return view('auth.settings');
+        return view('utility.ubah-password');
     }
 
     public function settingsupdate(Request $request)
     {
-        if (!(Hash::check($request->input('current_pass'), Auth::user()->password))) {
-            return response()->json(0);
-          }
-          if(strcmp($request->input('current_pass'), $request->input('new_pass')) == 0){
-            return response()->json(1);
-          }
-          if(!(strcmp($request->input('new_pass'), $request->input('confirm_pass'))) == 0){
-            return response()->json(2);
-          }
-          //dd($lastpass, $currentpass, $newpass, $confirmpass);
-          $user = Auth::user();
-          $user->password = Hash::make($request->input('new_pass'));
-          $user->save();
-          return response()->json(3);
+        if (!Hash::check($request->input('current_pass'), Auth::user()->password)) {
+            return redirect()->back()->with('error', 'Password saat ini salah.');
+        }
+
+        if (strcmp($request->input('current_pass'), $request->input('new_pass')) == 0) {
+            return redirect()->back()->with('error', 'Password baru tidak boleh sama dengan password lama.');
+        }
+
+        if (strcmp($request->input('new_pass'), $request->input('confirm_pass')) !== 0) {
+            return redirect()->back()->with('error', 'Konfirmasi password tidak cocok.');
+        }
+
+        $user = Auth::user();
+        $user->password = Hash::make($request->input('new_pass'));
+        $user->save();
+
+        return redirect()->back()->with('success', 'Password berhasil diperbarui.');
     }
+
 
     public function logout(Request $request)
     {

@@ -75,3 +75,9 @@ Route::post('informasi/absensi/cetak', 'InfoAbsensiController@cetakData')->name(
 
 Route::get('setting/system', 'SettingSystemController@index')->name('setting-system');
 Route::post('setting/system-update', 'SettingSystemController@update')->name('setting-system-update');
+
+Route::get('setting/user', 'LoginController@settings')->name('setting-password');
+Route::post('setting/user-update', 'LoginController@settingsupdate')->name('setting-password-update');
+
+Route::get('setting/profil', 'LoginController@profile')->name('setting-profile');
+Route::post('setting/profil-update', 'LoginController@profileupdate')->name('setting-profile-update');
